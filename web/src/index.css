@@ -1,0 +1,25 @@
+/**
+ * START --- SETUP TAILWINDCSS EDIT
+ *
+ * `yarn rw setup ui tailwindcss` placed these directives here
+ * to inject Tailwind's styles into your CSS.
+ * For more information, see: https://tailwindcss.com/docs/installation
+ */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-2%, -3%) scale(1.02); }
+  66% { transform: translate(3%, 2%) scale(0.98); }
+}
+.animate-drift {
+  animation: drift 20s infinite ease-in-out;
+}
+.animate-drift-reverse {
+  animation: drift 18s infinite ease-in-out reverse;
+}
+/**
+ * END --- SETUP TAILWINDCSS EDIT
+ */
