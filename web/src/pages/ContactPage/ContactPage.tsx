@@ -1,5 +1,13 @@
 import { useState } from 'react'
 
+import {
+  FaMapMarkerAlt,
+  FaWhatsapp,
+  FaEnvelope,
+  FaRegCopy,
+  FaCheck,
+} from 'react-icons/fa'
+
 import { Metadata } from '@redwoodjs/web'
 
 const ContactPage = () => {
@@ -11,20 +19,76 @@ const ContactPage = () => {
   })
 
   const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [copiedType, setCopiedType] = useState<string | null>(null)
 
-  const handleChange = (e) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }))
   }
 
-  const handleSubmit = (e) => {
+  // --- Native Fetch Submission to Formspree ---
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    // 🔌 Connect to your preferred form handler / backend here
-    console.log('Form submitted:', formData)
-    setSubmitted(true)
+    setSubmitting(true)
+
+    try {
+      const response = await fetch('https://formspree.io/f/xeelkqwo', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+
+      if (response.ok) {
+        setSubmitted(true)
+      } else {
+        alert(
+          'Oops! There was a problem submitting your form. Please try again.'
+        )
+      }
+    } catch (error) {
+      alert('Oops! There was a problem submitting your form. Please try again.')
+    } finally {
+      setSubmitting(false)
+    }
   }
+
+  // --- Copy to Clipboard Function ---
+  const handleCopy = (text: string, type: string) => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopiedType(type)
+      setTimeout(() => setCopiedType(null), 2000)
+    })
+  }
+
+  // --- Real Contact Details with copyable flag ---
+  const contactDetails = [
+    {
+      icon: <FaMapMarkerAlt className="text-2xl" />,
+      label: 'Location',
+      value: 'Surulere, Ikeja 101241, Lagos, Nigeria',
+      copyable: false,
+    },
+    {
+      icon: <FaWhatsapp className="text-2xl" />,
+      label: 'WhatsApp',
+      value: '+234 901 485 6642',
+      copyable: true,
+    },
+    {
+      icon: <FaEnvelope className="text-2xl" />,
+      label: 'Email',
+      value: 'Greatlance24@gmail.com',
+      copyable: true,
+    },
+  ]
 
   return (
     <>
@@ -33,48 +97,60 @@ const ContactPage = () => {
         description="Book your stay at our luxury serviced apartment in Surulere, Lagos. Fill in the form and we'll get back to you promptly."
       />
 
-      {/* ─── PAGE HEADER – LIGHT TONE ─────────────────────── */}
-      <section className="pt-24 pb-16 px-6 text-center bg-[#CFDDE2]">
-        <div className="flex items-center justify-center gap-4 mb-6">
-          <span className="block h-px w-12 bg-[#C9A96E]" />
-          <span
-            className="text-[#C9A96E] text-xs tracking-[0.35em] uppercase"
-            style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 400 }}
+      {/* ─── PAGE HEADER – WITH BACKGROUND IMAGE ─────────── */}
+      <section className="relative flex h-[450px] items-center justify-center overflow-hidden">
+        <img
+          src="bg.jpeg"
+          alt="GREATLANCE Apartments Interior"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/60" />
+
+        <div className="relative z-10 px-3 text-center sm:px-6">
+          <div className="mb-6 flex items-center justify-center gap-4">
+            <span className="block h-px w-12 bg-[#C9A96E]" />
+            <span
+              className="text-xs uppercase tracking-[0.35em] text-[#C9A96E]"
+              style={{
+                fontFamily: "'Montserrat', sans-serif",
+                fontWeight: 400,
+              }}
+            >
+              Reservations
+            </span>
+            <span className="block h-px w-12 bg-[#C9A96E]" />
+          </div>
+
+          <h1
+            className="text-4xl font-light text-white md:text-6xl"
+            style={{ fontFamily: "'Cormorant Garamond', serif" }}
           >
-            Reservations
-          </span>
-          <span className="block h-px w-12 bg-[#C9A96E]" />
+            Book This <span className="font-semibold italic">Apartment</span>
+          </h1>
+
+          <p
+            className="mx-auto mt-5 max-w-sm text-sm tracking-wide text-gray-300"
+            style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 300 }}
+          >
+            Fill in your details and we'll confirm your booking within 24 hours.
+          </p>
         </div>
-
-        <h1
-          className="text-4xl md:text-6xl font-light text-gray-900"
-          style={{ fontFamily: "'Cormorant Garamond', serif" }}
-        >
-          Book This <span className="italic font-semibold">Apartment</span>
-        </h1>
-
-        <p
-          className="mt-5 text-gray-400 text-sm tracking-wide max-w-sm mx-auto"
-          style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 300 }}
-        >
-          Fill in your details and we'll confirm your booking within 24 hours.
-        </p>
       </section>
 
-      {/* ─── FORM SECTION – LIGHTEST TONE ─────────────────── */}
-      <section className="pb-28 px-6 bg-[#F1F5F6]">
-        <div className="max-w-2xl mx-auto">
+      {/* ─── FORM SECTION – WIDER WIDTH & REDUCED PADDING ─────────────────── */}
+      <section className="bg-[#F1F5F6] px-2 pb-28 pt-6 sm:px-4">
+        <div className="mx-auto max-w-6xl">
           {submitted ? (
-            /* ── SUCCESS STATE – crisp white ── */
-            <div className="border border-[#C9A96E] p-16 text-center bg-white">
-              <div className="w-16 h-16 border border-[#C9A96E] rounded-full flex items-center justify-center mx-auto mb-8">
+            /* ── SUCCESS STATE ── */
+            <div className="border border-[#C9A96E] bg-white p-10 text-center sm:p-16">
+              <div className="mx-auto mb-8 flex h-16 w-16 items-center justify-center rounded-full border border-[#C9A96E]">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="#C9A96E"
-                  className="w-7 h-7"
+                  className="h-7 w-7"
                 >
                   <path
                     strokeLinecap="round"
@@ -84,13 +160,13 @@ const ContactPage = () => {
                 </svg>
               </div>
               <h3
-                className="text-2xl md:text-3xl font-light text-gray-900 mb-4"
+                className="mb-4 text-2xl font-light text-gray-900 md:text-3xl"
                 style={{ fontFamily: "'Cormorant Garamond', serif" }}
               >
                 Booking Request Received
               </h3>
               <p
-                className="text-gray-400 text-sm leading-relaxed"
+                className="text-sm leading-relaxed text-gray-400"
                 style={{
                   fontFamily: "'Montserrat', sans-serif",
                   fontWeight: 300,
@@ -102,16 +178,16 @@ const ContactPage = () => {
               </p>
             </div>
           ) : (
-            /* ── FORM – pure white ── */
+            /* ── FORM ── */
             <form
               onSubmit={handleSubmit}
-              className="border border-gray-200 p-10 md:p-14 bg-white"
+              className="border border-gray-200 bg-white p-6 sm:p-12"
             >
               {/* Row: Full Name */}
               <div className="mb-8">
                 <label
                   htmlFor="fullName"
-                  className="block text-xs text-gray-400 tracking-[0.25em] uppercase mb-3"
+                  className="mb-3 block text-xs uppercase tracking-[0.25em] text-gray-400"
                   style={{ fontFamily: "'Montserrat', sans-serif" }}
                 >
                   Full Name
@@ -124,7 +200,7 @@ const ContactPage = () => {
                   value={formData.fullName}
                   onChange={handleChange}
                   placeholder="e.g. Adaeze Williams"
-                  className="w-full border-b border-gray-200 focus:border-[#C9A96E] bg-transparent pb-3 text-gray-800 text-sm outline-none transition-colors placeholder:text-gray-300"
+                  className="w-full border-b border-gray-200 bg-transparent pb-3 text-sm text-gray-800 outline-none transition-colors placeholder:text-gray-300 focus:border-[#C9A96E]"
                   style={{ fontFamily: "'Montserrat', sans-serif" }}
                 />
               </div>
@@ -133,7 +209,7 @@ const ContactPage = () => {
               <div className="mb-8">
                 <label
                   htmlFor="email"
-                  className="block text-xs text-gray-400 tracking-[0.25em] uppercase mb-3"
+                  className="mb-3 block text-xs uppercase tracking-[0.25em] text-gray-400"
                   style={{ fontFamily: "'Montserrat', sans-serif" }}
                 >
                   Email Address
@@ -146,7 +222,7 @@ const ContactPage = () => {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="you@example.com"
-                  className="w-full border-b border-gray-200 focus:border-[#C9A96E] bg-transparent pb-3 text-gray-800 text-sm outline-none transition-colors placeholder:text-gray-300"
+                  className="w-full border-b border-gray-200 bg-transparent pb-3 text-sm text-gray-800 outline-none transition-colors placeholder:text-gray-300 focus:border-[#C9A96E]"
                   style={{ fontFamily: "'Montserrat', sans-serif" }}
                 />
               </div>
@@ -155,7 +231,7 @@ const ContactPage = () => {
               <div className="mb-8">
                 <label
                   htmlFor="phone"
-                  className="block text-xs text-gray-400 tracking-[0.25em] uppercase mb-3"
+                  className="mb-3 block text-xs uppercase tracking-[0.25em] text-gray-400"
                   style={{ fontFamily: "'Montserrat', sans-serif" }}
                 >
                   Phone Number
@@ -168,7 +244,7 @@ const ContactPage = () => {
                   value={formData.phone}
                   onChange={handleChange}
                   placeholder="+234 800 000 0000"
-                  className="w-full border-b border-gray-200 focus:border-[#C9A96E] bg-transparent pb-3 text-gray-800 text-sm outline-none transition-colors placeholder:text-gray-300"
+                  className="w-full border-b border-gray-200 bg-transparent pb-3 text-sm text-gray-800 outline-none transition-colors placeholder:text-gray-300 focus:border-[#C9A96E]"
                   style={{ fontFamily: "'Montserrat', sans-serif" }}
                 />
               </div>
@@ -177,7 +253,7 @@ const ContactPage = () => {
               <div className="mb-12">
                 <label
                   htmlFor="message"
-                  className="block text-xs text-gray-400 tracking-[0.25em] uppercase mb-3"
+                  className="mb-3 block text-xs uppercase tracking-[0.25em] text-gray-400"
                   style={{ fontFamily: "'Montserrat', sans-serif" }}
                 >
                   Message
@@ -190,17 +266,18 @@ const ContactPage = () => {
                   value={formData.message}
                   onChange={handleChange}
                   placeholder="Tell us your preferred check-in date, length of stay, number of guests, and any special requests..."
-                  className="w-full border-b border-gray-200 focus:border-[#C9A96E] bg-transparent pb-3 text-gray-800 text-sm outline-none transition-colors resize-none placeholder:text-gray-300"
+                  className="w-full resize-none border-b border-gray-200 bg-transparent pb-3 text-sm text-gray-800 outline-none transition-colors placeholder:text-gray-300 focus:border-[#C9A96E]"
                   style={{ fontFamily: "'Montserrat', sans-serif" }}
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full bg-[#1a1a1a] hover:bg-[#C9A96E] text-white hover:text-black py-5 text-xs tracking-[0.3em] uppercase transition-all duration-500"
+                disabled={submitting}
+                className="w-full bg-[#1a1a1a] py-5 text-xs uppercase tracking-[0.3em] text-white transition-all duration-500 hover:bg-[#C9A96E] hover:text-black disabled:opacity-50"
                 style={{ fontFamily: "'Montserrat', sans-serif" }}
               >
-                Send Booking Request
+                {submitting ? 'Sending...' : 'Send Booking Request'}
               </button>
 
               <p
@@ -216,33 +293,57 @@ const ContactPage = () => {
             </form>
           )}
 
-          {/* ── Contact detail strip – clean white cards ── */}
-          <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
-            {[
-              { icon: '📍', label: 'Location', value: 'Surulere, Lagos' },
-              { icon: '📱', label: 'WhatsApp', value: '+234 XXX XXX XXXX' },
-              { icon: '📧', label: 'Email', value: 'hello@yourdomain.com' },
-            ].map(({ icon, label, value }) => (
-              <div
-                key={label}
-                className="p-6 border border-gray-200 bg-white"
-              >
-                <span className="text-xl block mb-2">{icon}</span>
+          {/* ── GOOGLE MAP – FULL WIDTH ── */}
+          <div className="mt-6 w-full overflow-hidden rounded-lg border border-gray-200 shadow-sm">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d16237026.819951711!2d3.35836!3d6.50676!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b8c3f6f6e69a9%3A0x793f41695d5e8625!2sGreatlance%20Apartments%20-%20Double%20Room%20With%20Private%20Bathroom!5e0!3m2!1sen!2sch!4v1789903050832!5m2!1sen!2sch"
+              width="100%"
+              height="450"
+              style={{ border: 0 }}
+              allowFullScreen=""
+              loading="lazy"
+              referrerPolicy="strict-origin-when-cross-origin"
+            ></iframe>
+          </div>
+
+          {/* ── Contact detail strip – TIGHTER GAPS & COPY BUTTON ── */}
+          <div className="mt-6 grid grid-cols-1 gap-2 text-center sm:grid-cols-3">
+            {contactDetails.map(({ icon, label, value, copyable }) => (
+              <div key={label} className="border border-gray-200 bg-white p-6">
+                <span className="mb-3 flex justify-center text-[#C9A96E]">
+                  {icon}
+                </span>
                 <p
-                  className="text-xs text-[#C9A96E] tracking-[0.2em] uppercase mb-1"
+                  className="mb-1 text-xs uppercase tracking-[0.2em] text-[#C9A96E]"
                   style={{ fontFamily: "'Montserrat', sans-serif" }}
                 >
                   {label}
                 </p>
-                <p
-                  className="text-sm text-gray-600"
-                  style={{
-                    fontFamily: "'Montserrat', sans-serif",
-                    fontWeight: 300,
-                  }}
-                >
-                  {value}
-                </p>
+
+                <div className="flex items-center justify-center gap-2 text-sm text-gray-600">
+                  <p
+                    style={{
+                      fontFamily: "'Montserrat', sans-serif",
+                      fontWeight: 300,
+                    }}
+                  >
+                    {value}
+                  </p>
+
+                  {copyable && (
+                    <button
+                      onClick={() => handleCopy(value, label)}
+                      className="text-gray-400 transition-colors hover:text-[#C9A96E] focus:outline-none"
+                      title="Copy to clipboard"
+                    >
+                      {copiedType === label ? (
+                        <FaCheck className="text-xs text-green-500" />
+                      ) : (
+                        <FaRegCopy className="text-xs" />
+                      )}
+                    </button>
+                  )}
+                </div>
               </div>
             ))}
           </div>
