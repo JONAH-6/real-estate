@@ -10,6 +10,29 @@ import {
 
 import { Metadata } from '@redwoodjs/web'
 
+const Zigzag = ({ width = 48, className = '' }) => {
+  const height = (width / 64) * 8
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 64 8"
+      fill="none"
+      aria-hidden="true"
+      className={className}
+    >
+      <path
+        d="M0 7 L8 1 L16 7 L24 1 L32 7 L40 1 L48 7 L56 1 L64 7"
+        stroke="#C9A96E"
+        strokeWidth="1"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        opacity="0.85"
+      />
+    </svg>
+  )
+}
+
 const ContactPage = () => {
   const [formData, setFormData] = useState({
     fullName: '',
@@ -108,7 +131,7 @@ const ContactPage = () => {
 
         <div className="relative z-10 px-3 text-center sm:px-6">
           <div className="mb-6 flex items-center justify-center gap-4">
-            <span className="block h-px w-12 bg-[#C9A96E]" />
+            <Zigzag />
             <span
               className="text-xs uppercase tracking-[0.35em] text-[#C9A96E]"
               style={{
@@ -118,7 +141,7 @@ const ContactPage = () => {
             >
               Reservations
             </span>
-            <span className="block h-px w-12 bg-[#C9A96E]" />
+            <Zigzag />
           </div>
 
           <h1

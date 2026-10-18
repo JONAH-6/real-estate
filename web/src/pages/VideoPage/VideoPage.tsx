@@ -5,32 +5,32 @@ import { Metadata } from '@redwoodjs/web'
 
 // ─── ICONS (unchanged) ───────────────────────────────────────
 const PlayIcon = () => (
-  <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
+  <svg viewBox="0 0 24 24" fill="currentColor" className="h-full w-full">
     <path d="M8 5.14v14l11-7-11-7z" />
   </svg>
 )
 const PauseIcon = () => (
-  <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
+  <svg viewBox="0 0 24 24" fill="currentColor" className="h-full w-full">
     <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
   </svg>
 )
 const VolumeIcon = () => (
-  <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
+  <svg viewBox="0 0 24 24" fill="currentColor" className="h-full w-full">
     <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
   </svg>
 )
 const MuteIcon = () => (
-  <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
+  <svg viewBox="0 0 24 24" fill="currentColor" className="h-full w-full">
     <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z" />
   </svg>
 )
 const FullscreenIcon = () => (
-  <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
+  <svg viewBox="0 0 24 24" fill="currentColor" className="h-full w-full">
     <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z" />
   </svg>
 )
 const ExitFullscreenIcon = () => (
-  <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
+  <svg viewBox="0 0 24 24" fill="currentColor" className="h-full w-full">
     <path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z" />
   </svg>
 )
@@ -196,7 +196,7 @@ const VideoPlayer = ({ src, title, subtitle, num }) => {
   return (
     <div className="mb-10 sm:mb-16">
       {/* ─── CARD HEADER – more compact on mobile ── */}
-      <div className="flex flex-wrap items-end justify-between gap-1 mb-2 px-2 sm:px-1 sm:mb-4">
+      <div className="mb-2 flex flex-wrap items-end justify-between gap-1 px-2 sm:mb-4 sm:px-1">
         <div className="flex items-center gap-2 sm:gap-4">
           <span
             className="leading-none"
@@ -210,7 +210,7 @@ const VideoPlayer = ({ src, title, subtitle, num }) => {
           >
             {num}
           </span>
-          <div className="flex-1 min-w-0">
+          <div className="min-w-0 flex-1">
             <p
               className="truncate"
               style={{
@@ -254,7 +254,7 @@ const VideoPlayer = ({ src, title, subtitle, num }) => {
       {/* ─── PLAYER CONTAINER – edge‑to‑edge on mobile, gold border only on desktop ── */}
       <div
         ref={containerRef}
-        className="relative overflow-hidden group"
+        className="group relative overflow-hidden"
         style={{
           background: '#0a0a0a',
           border: '1px solid #C9A96E',
@@ -263,17 +263,17 @@ const VideoPlayer = ({ src, title, subtitle, num }) => {
         onMouseLeave={() => playing && setShowControls(false)}
       >
         {/* Gold corners – completely hidden on mobile (clean edge‑to‑edge) */}
-        <div className="hidden sm:block absolute top-0 left-0 w-5 h-5 border-t-2 border-l-2 border-[#C9A96E] z-10 pointer-events-none" />
-        <div className="hidden sm:block absolute top-0 right-0 w-5 h-5 border-t-2 border-r-2 border-[#C9A96E] z-10 pointer-events-none" />
-        <div className="hidden sm:block absolute bottom-0 left-0 w-5 h-5 border-b-2 border-l-2 border-[#C9A96E] z-10 pointer-events-none" />
-        <div className="hidden sm:block absolute bottom-0 right-0 w-5 h-5 border-b-2 border-r-2 border-[#C9A96E] z-10 pointer-events-none" />
+        <div className="pointer-events-none absolute left-0 top-0 z-10 hidden h-5 w-5 border-l-2 border-t-2 border-[#C9A96E] sm:block" />
+        <div className="pointer-events-none absolute right-0 top-0 z-10 hidden h-5 w-5 border-r-2 border-t-2 border-[#C9A96E] sm:block" />
+        <div className="pointer-events-none absolute bottom-0 left-0 z-10 hidden h-5 w-5 border-b-2 border-l-2 border-[#C9A96E] sm:block" />
+        <div className="pointer-events-none absolute bottom-0 right-0 z-10 hidden h-5 w-5 border-b-2 border-r-2 border-[#C9A96E] sm:block" />
 
         {/* VIDEO WRAPPER – TikTok tall on mobile, 16:9 on desktop */}
-        <div className="relative w-full h-[85vh] sm:h-auto sm:pt-[56.25%]">
+        <div className="relative h-[85vh] w-full sm:h-auto sm:pt-[56.25%]">
           <video
             ref={videoRef}
             src={src}
-            className="absolute inset-0 w-full h-full object-cover sm:object-contain"
+            className="absolute inset-0 h-full w-full object-cover sm:object-contain"
             style={{ background: '#000' }}
             onTimeUpdate={handleTimeUpdate}
             onLoadedMetadata={handleLoadedMetadata}
@@ -306,13 +306,13 @@ const VideoPlayer = ({ src, title, subtitle, num }) => {
                   backdropFilter: 'blur(4px)',
                 }}
               >
-                <div className="w-7 h-7 sm:w-7 sm:h-7">
+                <div className="h-7 w-7 sm:h-7 sm:w-7">
                   <PlayIcon />
                 </div>
               </div>
 
               {/* Overlay title – subtle, only on mobile when big play is visible */}
-              <div className="absolute bottom-4 left-4 sm:bottom-8 sm:left-8 pointer-events-none sm:block">
+              <div className="pointer-events-none absolute bottom-4 left-4 sm:bottom-8 sm:left-8 sm:block">
                 <p
                   style={{
                     fontFamily: "'Montserrat', sans-serif",
@@ -341,7 +341,7 @@ const VideoPlayer = ({ src, title, subtitle, num }) => {
 
           {/* ─── CONTROLS BAR – touch optimised, gradient background, full width ── */}
           <div
-            className="absolute bottom-0 left-0 right-0 px-2 pb-2 sm:px-3 sm:pb-3 transition-opacity duration-400"
+            className="duration-400 absolute bottom-0 left-0 right-0 px-2 pb-2 transition-opacity sm:px-3 sm:pb-3"
             style={{
               background:
                 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%)',
@@ -353,21 +353,21 @@ const VideoPlayer = ({ src, title, subtitle, num }) => {
             <div
               ref={progressRef}
               onClick={handleProgressClick}
-              className="relative w-full h-3 sm:h-1.5 mb-2 cursor-pointer rounded-full bg-white/20 hover:h-4 sm:hover:h-2 transition-all duration-150"
+              className="relative mb-2 h-3 w-full cursor-pointer rounded-full bg-white/20 transition-all duration-150 hover:h-4 sm:h-1.5 sm:hover:h-2"
             >
               <div
-                className="absolute top-0 left-0 bottom-0 rounded-full pointer-events-none"
+                className="pointer-events-none absolute bottom-0 left-0 top-0 rounded-full"
                 style={{
                   width: `${buffered}%`,
                   background: 'rgba(201,169,110,0.3)',
                 }}
               />
               <div
-                className="absolute top-0 left-0 bottom-0 rounded-full pointer-events-none bg-[#C9A96E]"
+                className="pointer-events-none absolute bottom-0 left-0 top-0 rounded-full bg-[#C9A96E]"
                 style={{ width: `${progress}%` }}
               />
               <div
-                className="absolute top-1/2 -translate-y-1/2 w-5 h-5 sm:w-3 sm:h-3 rounded-full bg-[#C9A96E] shadow-lg pointer-events-none"
+                className="pointer-events-none absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full bg-[#C9A96E] shadow-lg sm:h-3 sm:w-3"
                 style={{ left: `${progress}%` }}
               />
             </div>
@@ -376,15 +376,15 @@ const VideoPlayer = ({ src, title, subtitle, num }) => {
             <div className="flex items-center gap-3 sm:gap-3">
               <button
                 onClick={togglePlay}
-                className="w-12 h-12 sm:w-9 sm:h-9 flex-shrink-0 flex items-center justify-center rounded-full border border-[#C9A96E]/40 bg-black/40 text-[#C9A96E] hover:bg-[#C9A96E] hover:text-black transition-colors"
+                className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full border border-[#C9A96E]/40 bg-black/40 text-[#C9A96E] transition-colors hover:bg-[#C9A96E] hover:text-black sm:h-9 sm:w-9"
                 aria-label={playing ? 'Pause' : 'Play'}
               >
-                <div className="w-5 h-5 sm:w-4 sm:h-4">
+                <div className="h-5 w-5 sm:h-4 sm:w-4">
                   {playing ? <PauseIcon /> : <PlayIcon />}
                 </div>
               </button>
 
-              <span className="font-mono text-xs sm:text-[0.6rem] text-white/70 tracking-wider flex-shrink-0">
+              <span className="flex-shrink-0 font-mono text-xs tracking-wider text-white/70 sm:text-[0.6rem]">
                 {fmt(currentTime)} / {fmt(duration)}
               </span>
 
@@ -392,10 +392,10 @@ const VideoPlayer = ({ src, title, subtitle, num }) => {
 
               <button
                 onClick={toggleMute}
-                className="w-12 h-12 sm:w-8 sm:h-8 flex-shrink-0 flex items-center justify-center text-[#C9A96E] hover:text-white transition-colors"
+                className="flex h-12 w-12 flex-shrink-0 items-center justify-center text-[#C9A96E] transition-colors hover:text-white sm:h-8 sm:w-8"
                 aria-label={muted ? 'Unmute' : 'Mute'}
               >
-                <div className="w-6 h-6 sm:w-5 sm:h-5">
+                <div className="h-6 w-6 sm:h-5 sm:w-5">
                   {muted ? <MuteIcon /> : <VolumeIcon />}
                 </div>
               </button>
@@ -407,16 +407,16 @@ const VideoPlayer = ({ src, title, subtitle, num }) => {
                 step={0.05}
                 value={muted ? 0 : volume}
                 onChange={handleVolumeChange}
-                className="hidden sm:block w-20 accent-[#C9A96E] flex-shrink-0"
+                className="hidden w-20 flex-shrink-0 accent-[#C9A96E] sm:block"
                 aria-label="Volume"
               />
 
               <button
                 onClick={toggleFullscreen}
-                className="w-12 h-12 sm:w-8 sm:h-8 flex-shrink-0 flex items-center justify-center text-[#C9A96E] hover:text-white transition-colors"
+                className="flex h-12 w-12 flex-shrink-0 items-center justify-center text-[#C9A96E] transition-colors hover:text-white sm:h-8 sm:w-8"
                 aria-label={isFullscreen ? 'Exit fullscreen' : 'Fullscreen'}
               >
-                <div className="w-6 h-6 sm:w-5 sm:h-5">
+                <div className="h-6 w-6 sm:h-5 sm:w-5">
                   {isFullscreen ? <ExitFullscreenIcon /> : <FullscreenIcon />}
                 </div>
               </button>
@@ -426,7 +426,7 @@ const VideoPlayer = ({ src, title, subtitle, num }) => {
       </div>
 
       {/* ─── UNDER‑PLAYER LABEL – condensed, less prominent on mobile ── */}
-      <div className="flex flex-wrap items-center justify-between gap-1 mt-2 px-2 sm:mt-3 sm:px-1">
+      <div className="mt-2 flex flex-wrap items-center justify-between gap-1 px-2 sm:mt-3 sm:px-1">
         <p
           style={{
             fontFamily: "'Montserrat', sans-serif",
@@ -454,6 +454,30 @@ const VideoPlayer = ({ src, title, subtitle, num }) => {
   )
 }
 
+// ─── ZIGZAG LINE ─────────────────────────────────────────────
+const Zigzag = ({ width = 48, className = '' }) => {
+  const height = (width / 64) * 8
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 64 8"
+      fill="none"
+      aria-hidden="true"
+      className={className}
+    >
+      <path
+        d="M0 7 L8 1 L16 7 L24 1 L32 7 L40 1 L48 7 L56 1 L64 7"
+        stroke="#C9A96E"
+        strokeWidth="1"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        opacity="0.85"
+      />
+    </svg>
+  )
+}
+
 // ─── PAGE ────────────────────────────────────────────────────
 const VideoPage = () => {
   return (
@@ -464,9 +488,9 @@ const VideoPage = () => {
       />
 
       {/* ─── PAGE HEADER – LIGHT TONE (CFDDE2) ───────────────────── */}
-      <section className="pt-20 pb-12 px-4 sm:pt-24 sm:pb-16 sm:px-6 text-center bg-[#CFDDE2]">
-        <div className="flex items-center justify-center gap-2 sm:gap-4 mb-6">
-          <span className="block h-px w-8 sm:w-12 bg-[#C9A96E]" />
+      <section className="bg-[#CFDDE2] px-4 pb-12 pt-20 text-center sm:px-6 sm:pb-16 sm:pt-24">
+        <div className="mb-6 flex items-center justify-center gap-2 sm:gap-4">
+          <Zigzag className="w-8 sm:w-12" />
           <span
             style={{
               fontFamily: "'Montserrat', sans-serif",
@@ -479,7 +503,7 @@ const VideoPage = () => {
           >
             Virtual Tour
           </span>
-          <span className="block h-px w-8 sm:w-12 bg-[#C9A96E]" />
+          <Zigzag className="w-8 sm:w-12" />
         </div>
 
         <h1
@@ -495,7 +519,7 @@ const VideoPage = () => {
         </h1>
 
         <p
-          className="max-w-xs mx-auto sm:max-w-md"
+          className="mx-auto max-w-xs sm:max-w-md"
           style={{
             fontFamily: "'Montserrat', sans-serif",
             fontSize: '0.75rem',
@@ -510,7 +534,7 @@ const VideoPage = () => {
           en-suite bedrooms. Click play to explore.
         </p>
 
-        <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-10 mt-8 pt-6 border-t border-gray-200 max-w-xs sm:max-w-md mx-auto">
+        <div className="mx-auto mt-8 flex max-w-xs flex-wrap items-center justify-center gap-6 border-t border-gray-200 pt-6 sm:max-w-md sm:gap-10">
           {[
             { v: '4', l: 'Video Tours' },
             { v: 'HD', l: 'Quality' },
@@ -544,8 +568,8 @@ const VideoPage = () => {
       </section>
 
       {/* ─── VIDEOS GRID – LIGHTEST TONE (F1F5F6) ──────────────── */}
-      <section className="px-0 sm:px-6 py-12 sm:py-20 bg-[#F1F5F6]">
-        <div className="max-w-4xl mx-auto">
+      <section className="bg-[#F1F5F6] px-0 py-12 sm:px-6 sm:py-20">
+        <div className="mx-auto max-w-4xl">
           {videos.map((v) => (
             <VideoPlayer key={v.src} {...v} />
           ))}
@@ -553,7 +577,7 @@ const VideoPage = () => {
       </section>
 
       {/* ─── BOOKING CTA – unchanged ──────────────────────────── */}
-      <section className="py-16 px-4 sm:py-24 sm:px-6 text-center bg-[#1a1a1a]">
+      <section className="bg-[#1a1a1a] px-4 py-16 text-center sm:px-6 sm:py-24">
         <p
           style={{
             fontFamily: "'Montserrat', sans-serif",
@@ -579,7 +603,7 @@ const VideoPage = () => {
         </h2>
         <Link
           to={routes.contact()}
-          className="inline-block border border-[#C9A96E] text-[#C9A96E] px-8 py-3 sm:px-14 sm:py-4 text-[0.65rem] tracking-[0.3em] uppercase font-sans no-underline transition-all duration-400 hover:bg-[#C9A96E] hover:text-black"
+          className="duration-400 inline-block border border-[#C9A96E] px-8 py-3 font-sans text-[0.65rem] uppercase tracking-[0.3em] text-[#C9A96E] no-underline transition-all hover:bg-[#C9A96E] hover:text-black sm:px-14 sm:py-4"
           style={{
             fontFamily: "'Montserrat', sans-serif",
           }}
@@ -588,7 +612,7 @@ const VideoPage = () => {
         </Link>
 
         <div
-          className="mt-12 pt-6 border-t border-white/10"
+          className="mt-12 border-t border-white/10 pt-6"
           style={{ borderColor: 'rgba(255,255,255,0.08)' }}
         >
           <p
