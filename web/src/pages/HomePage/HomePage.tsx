@@ -538,16 +538,13 @@ const HomePage = () => {
 
                     <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
 
-                    <div className="absolute left-3 top-3 flex items-center gap-1 bg-white/90 px-2 py-1 backdrop-blur-sm">
-                      <FaStar
-                        className="text-[#C9A96E]"
-                        style={{ fontSize: '10px' }}
-                      />
+                    <div className="absolute left-3 top-3 flex items-center gap-1.5 rounded-full border border-[#C9A96E]/40 bg-white/90 px-2.5 py-0.5 backdrop-blur-sm">
+                      <span className="block h-1.5 w-1.5 rounded-full bg-[#3B7A57]" />
                       <span
-                        className="text-[10px] font-semibold text-gray-800"
+                        className="text-[8px] font-extrabold uppercase tracking-[0.15em] text-[#3B7A57]"
                         style={{ fontFamily: "'Montserrat', sans-serif" }}
                       >
-                        {apt.rating}
+                        Available
                       </span>
                     </div>
 
@@ -1145,16 +1142,13 @@ const HomePage = () => {
                 alt={selectedApt.name}
                 className="h-full w-full object-cover"
               />
-              <div className="absolute left-3 top-3 z-10 flex items-center gap-1 bg-white/90 px-2 py-1 backdrop-blur-sm">
-                <FaStar
-                  className="text-[#C9A96E]"
-                  style={{ fontSize: '10px' }}
-                />
+              <div className="absolute left-3 top-3 z-10 flex items-center gap-1.5 rounded-full border border-[#C9A96E]/40 bg-white/90 px-2.5 py-1 backdrop-blur-sm">
+                <span className="block h-1.5 w-1.5 rounded-full bg-[#3B7A57]" />
                 <span
-                  className="text-[10px] font-semibold text-gray-800"
+                  className="text-[8px] font-extrabold uppercase tracking-[0.15em] text-[#3B7A57]"
                   style={{ fontFamily: "'Montserrat', sans-serif" }}
                 >
-                  {selectedApt.rating}
+                  Available
                 </span>
               </div>
             </div>
@@ -1185,7 +1179,7 @@ const HomePage = () => {
                 </span>
               </div>
 
-              <div className="mt-6 flex items-center justify-between border border-[#C9A96E]/30 bg-white px-4 py-3">
+              <div className="mt-6 border border-[#C9A96E]/30 bg-white px-4 py-3">
                 <div>
                   <p
                     className="text-[10px] uppercase tracking-[0.2em] text-[#C9A96E]"
@@ -1200,9 +1194,6 @@ const HomePage = () => {
                     {selectedApt.price}
                   </p>
                 </div>
-                <span className="hidden items-center sm:flex">
-                  <Stars count={selectedApt.rating} />
-                </span>
               </div>
 
               <p
